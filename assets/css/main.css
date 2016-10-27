@@ -1,0 +1,8 @@
+.custom-selector-component-container {
+    padding: 10px 0;
+}
+
+.title {
+    font-weight: bold;
+    text-transform: capitalize;
+}
