@@ -14,6 +14,8 @@ if (!defined('CC_PLUGIN_DIR_URI')) {
     define('CC_PLUGIN_DIR_URI', plugin_dir_path(__FILE__));
 }
 
+require_once 'custom-cat-xhr.php';
+
 add_action('admin_enqueue_scripts', function(){
     wp_enqueue_script('cc-chosen-js', CC_PLUGIN_URI . 'assets/library/chosen/chosen.jquery.js', ['jquery-core']);
     wp_enqueue_script('cc-vue-js', CC_PLUGIN_URI . 'assets/library/vue.js', ['jquery-core']);
@@ -32,11 +34,9 @@ add_action('add_meta_boxes', function(){
 function custom_cat_box_content()
 {
     $availableTaxonomies = buildAvailableTaxonomy();
-//    $categoryList = fetch_all_available_taxonomies('category'); //fv to populate select box
 
     global $post;
     $postId = $post->ID; //fv
-//    $availableTerms = fetch_all_terms_of_post($postId, 'category'); // fv
 
     require_once(CC_PLUGIN_DIR_URI . 'view/custom-cat-box-content.php');
 }
@@ -58,19 +58,6 @@ function buildAvailableTaxonomy()
     }
     return $availableTaxonomies;
 }
-
-add_action('wp_ajax_save_category', function(){
-    if (empty($_POST['action']) || $_POST['action'] != 'save_category') {
-        echo json_encode(['status' => false]);
-        die;
-    }
-    wp_set_object_terms($_POST['postId'], $_POST['categoriesToSave'], $_POST['taxonomy']);
-    echo json_encode([
-        'status' => true,
-        'currentTerms' => $_POST['categoriesToSave'],
-    ]);
-    die;
-});
 
 function fetch_all_available_taxonomies($taxonomy)
 {

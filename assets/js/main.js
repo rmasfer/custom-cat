@@ -7,15 +7,45 @@
         template: "#taxonomy-saver-template",
         data: function(){
             return {
-                showTaxonomySaver: false
+                showTaxonomySaver: false,
+                searchedText: null
             }
         },
         created: function(){
             var vm = this;
-            vm.$parent.$on('cat-selector-no-results', function(){
-                console.log('event listening');
+            vm.$parent.$on('cat-selector-no-results', function(searchedText){
                 vm.showTaxonomySaver = true;
+                vm.searchedText = searchedText;
             });
+
+            //vm.$on('ts-save', vm.save);
+        },
+        mounted: function(){
+            var vm = this;
+            //$(vm.$el).find('.button-save').on('click', function(){
+            //   vm.$emit('ts-save');
+            //});
+        },
+        methods: {
+            save: function(){
+                var vm = this;
+                $.ajax({
+                    url: window.ajaxurl,
+                    data: {
+                        action: 'insert_term',
+                        taxonomy: vm.$parent.taxonomy,
+                        term: vm.searchedText
+                    },
+                    type: 'POST'
+                }).done(function(response){
+                    var responseObject = JSON.parse(response);
+                    if (!responseObject.status) {
+                        return;
+                    }
+                    vm.$parent.$emit('ts-saved', vm.searchedText);
+                    vm.showTaxonomySaver = false;
+                });
+            }
         }
     };
 
@@ -51,14 +81,16 @@
 
         },
         created: function(){
-            var self = this;
-            self.$on('cat-selector-value-change', self.save);
-            //self.$on('cat-selector-no-results', function(searchedValue){
-            //});
+            var vm = this;
+            vm.$on('cat-selector-value-change', vm.save);
+            vm.$on('ts-saved', function(newTerm){
+                vm.selected.push(newTerm);
+            });
         },
         methods: {
             save: function(){
                 var vm = this;
+                console.log(vm.selected);
                 $.ajax({
                     url: window.ajaxurl,
                     type: 'POST',
