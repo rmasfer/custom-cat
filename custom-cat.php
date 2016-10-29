@@ -33,40 +33,40 @@ add_action('add_meta_boxes', function(){
 
 function custom_cat_box_content()
 {
-    $availableTaxonomies = buildAvailableTaxonomy();
+    $available_taxonomies = build_available_taxonomy();
 
     global $post;
-    $postId = $post->ID; //fv
+    $post_id = $post->ID; //fv
 
     require_once(CC_PLUGIN_DIR_URI . 'view/custom-cat-box-content.php');
 }
 
-function buildAvailableTaxonomy()
+function build_available_taxonomy()
 {
-    $availableTaxonomies = array();
+    $available_taxonomies = array();
     global $post;
     $postId = $post->ID;
-    $taxonomiesOfCurrentPost = get_object_taxonomies($post->post_type, 'names');
-    foreach ($taxonomiesOfCurrentPost as $taxonomyName) {
-        if (in_array($taxonomyName, ['post_tag', 'post_format'])) {
+    $taxonomies_of_currentPost = get_object_taxonomies($post->post_type, 'names');
+    foreach ($taxonomies_of_currentPost as $taxonomy_name) {
+        if (in_array($taxonomy_name, ['post_tag', 'post_format'])) {
             continue;
         }
 
-        $availableTaxonomies[$taxonomyName] = [];
-        $availableTaxonomies[$taxonomyName]['availableTermsList'] = fetch_all_available_taxonomies($taxonomyName); //fv to populate select box
-        $availableTaxonomies[$taxonomyName]['currentTermsList'] = fetch_all_terms_of_post($postId, $taxonomyName); // fv
+        $available_taxonomies[$taxonomy_name] = [];
+        $available_taxonomies[$taxonomy_name]['available_terms_list'] = fetch_all_available_taxonomies($taxonomy_name); //fv to populate select box
+        $available_taxonomies[$taxonomy_name]['current_terms_list'] = fetch_all_terms_of_post($postId, $taxonomy_name); // fv
     }
-    return $availableTaxonomies;
+    return $available_taxonomies;
 }
 
 function fetch_all_available_taxonomies($taxonomy)
 {
     $categories = get_categories(['taxonomy' => $taxonomy, 'orderby' => 'count', 'hide_empty' => 0]);
-    $categoryList = array(); //fv
+    $category_list = array(); //fv
     foreach ($categories as $category) {
-        $categoryList[] = ['name' => $category->name, 'value' => $category->slug];
+        $category_list[] = ['name' => $category->name, 'value' => $category->slug];
     }
-    return $categoryList;
+    return $category_list;
 }
 
 function fetch_all_terms_of_post($postId, $taxonomy)
@@ -75,9 +75,9 @@ function fetch_all_terms_of_post($postId, $taxonomy)
         'orderby' => 'count'
     ]);
 
-    $allTerms = array();
+    $all_terms = array();
     foreach ($results as $term) {
-        $allTerms[] = $term->slug;
+        $all_terms[] = $term->slug;
     }
-    return $allTerms;
+    return $all_terms;
 }

@@ -18,8 +18,8 @@ add_action('wp_ajax_insert_term', function(){
         die;
     }
 
-    $createdTerms = wp_insert_term($_POST['term'], $_POST['taxonomy']);
-    if (!is_array($createdTerms)) {
+    $created_terms = wp_insert_term($_POST['term'], $_POST['taxonomy']);
+    if (!is_array($created_terms)) {
         echo json_encode(['status' => false]);
         die;
     }

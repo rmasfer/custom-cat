@@ -1,13 +1,13 @@
 <div class="custom-cat-container" id="custom-cat-container">
     <?php
-    foreach ($availableTaxonomies as $taxonomyName => $availableTaxonomy) {
+    foreach ($available_taxonomies as $taxonomy_name => $available_taxonomy) {
     ?>
     <custom-selector
-        v-bind:post-id="<?php echo $postId;?>"
-        v-bind:current-terms="<?php echo str_replace('"', '\'', json_encode($availableTaxonomy['currentTermsList']));?>"
-        v-bind:terms-list="<?php echo str_replace('"', '\'', json_encode($availableTaxonomy['availableTermsList']));?>"
-        taxonomy="<?php echo $taxonomyName; ?>"
-        title="<?php echo $taxonomyName; ?>"
+        v-bind:post-id="<?php echo $post_id;?>"
+        v-bind:current-terms="<?php echo str_replace('"', '\'', json_encode($available_taxonomy['current_terms_list']));?>"
+        v-bind:terms-list="<?php echo str_replace('"', '\'', json_encode($available_taxonomy['available_terms_list']));?>"
+        taxonomy="<?php echo $taxonomy_name; ?>"
+        title="<?php echo $taxonomy_name; ?>"
     >
     </custom-selector>
     <?php
