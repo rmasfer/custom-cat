@@ -1,6 +1,6 @@
 # Custom Cat
-An improved version of taxonomy (eg. category) selector
+An improved version of taxonomy (eg. category) selector in post editing page
 
 
 ## Getting Started
-Install the plugin and visit post editing page
+You will get a new taxanomy selector in post editing page by installing this Plugin
