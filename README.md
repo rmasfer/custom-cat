@@ -1,5 +1,5 @@
 # Custom Cat
-An improved version of taxonomy (eg. category) selector in post editing page
+An improved version of taxonomy (eg. category) selector to post editing page
 
 
 ## Getting Started
