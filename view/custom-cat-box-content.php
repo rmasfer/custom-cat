@@ -18,24 +18,29 @@
 
 <script type="text/x-template" id="custom-container-template">
     <div class="custom-selector-component-container" v-bind:class="containerClass">
-        <span class="title">{{ title }}</span>
+        <div class="title">{{ title }}</div>
         <select class="cat-selector" multiple data-placeholder="Select Category" v-model="selected">
             <option v-for="category in termsList" v-bind:value="category.value">{{ category.name }}</option>
         </select>
-        Value {{ selected }}
+<!--        Value {{ selected }}-->
         <taxonomy-saver></taxonomy-saver>
     </div>
 </script>
 <script type="text/x-template" id="taxonomy-saver-template">
     <div class="taxonomy-save-container" v-show="showTaxonomySaver">
-        <div>
-	        <label for="input_new_taxonomy">Name</label>
-            <input type="text" name="input_new_taxonomy" v-model="searchedText"/>
-        </div>
-	    <div>
-	        <label for="input_new_slug">Slug</label>
-            <input type="text" name="input_new_slug" v-model="slug" />
+	    <div class="bold">Insert new term</div>
+	    <div class="form-wrap">
+	        <div class="element-container form-field">
+		        <label for="input_new_taxonomy">Name</label>
+	            <input type="text" name="input_new_taxonomy" v-model="searchedText"/>
+		        <p>The name is how it appears on your site.</p>
+	        </div>
+		    <div class="element-container form-field">
+		        <label for="input_new_slug">Slug</label>
+	            <input type="text" name="input_new_slug" v-model="slug" />
+			    <p>The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.</p>
+		    </div>
+	        <button class="button button-save" @click.prevent="save">Save</button>
 	    </div>
-        <button class="button-save" @click.prevent="save">Save</button>
     </div>
 </script>

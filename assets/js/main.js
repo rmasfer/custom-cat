@@ -72,7 +72,7 @@
             var vm = this;
             var catSelector = $(this.$el).find('.cat-selector');
             catSelector.chosen({
-                width: '300px'
+                width: '95%'
             }).change(function(event, params){
                 vm.selected = $(event.currentTarget).val();
                 vm.$emit('cat-selector-value-change');
