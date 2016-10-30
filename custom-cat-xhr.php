@@ -18,7 +18,7 @@ add_action('wp_ajax_insert_term', function(){
         die;
     }
 
-    $created_terms = wp_insert_term($_POST['term'], $_POST['taxonomy']);
+    $created_terms = wp_insert_term($_POST['term'], $_POST['taxonomy'], array('slug' => $_POST['slug']));
     if (!is_array($created_terms)) {
         echo json_encode(['status' => false]);
         die;

@@ -8,33 +8,37 @@
         data: function(){
             return {
                 showTaxonomySaver: false,
-                searchedText: null
+                searchedText: null,
+                slug: null
             }
+        },
+        computed: {
+
         },
         created: function(){
             var vm = this;
             vm.$parent.$on('cat-selector-no-results', function(searchedText){
                 vm.showTaxonomySaver = true;
                 vm.searchedText = searchedText;
+                vm.slug = searchedText;
             });
 
-            //vm.$on('ts-save', vm.save);
         },
         mounted: function(){
-            var vm = this;
-            //$(vm.$el).find('.button-save').on('click', function(){
-            //   vm.$emit('ts-save');
-            //});
+
         },
         methods: {
             save: function(){
                 var vm = this;
+                console.log(vm.searchedText);
+                console.log(vm.slug);
                 $.ajax({
                     url: window.ajaxurl,
                     data: {
                         action: 'insert_term',
                         taxonomy: vm.$parent.taxonomy,
-                        term: vm.searchedText
+                        term: vm.searchedText,
+                        slug: vm.slug
                     },
                     type: 'POST'
                 }).done(function(response){
@@ -66,14 +70,13 @@
         },
         mounted: function(){
             var vm = this;
-            //console.log(this.$el);
             var catSelector = $(this.$el).find('.cat-selector');
             catSelector.chosen({
                 width: '300px'
-            }).change(function(){
-                vm.selected = $(this).val();
+            }).change(function(event, params){
+                vm.selected = $(event.currentTarget).val();
                 vm.$emit('cat-selector-value-change');
-            });
+            }.bind(this));
             catSelector.on('chosen:no_results', function(event, params){
                 var noResultsValue = $('.' + vm.containerClass).find('.search-field input').val();
                 vm.$emit('cat-selector-no-results', noResultsValue);
@@ -84,13 +87,22 @@
             var vm = this;
             vm.$on('cat-selector-value-change', vm.save);
             vm.$on('ts-saved', function(newTerm){
+                vm.termsList.push({name: newTerm, value: newTerm});
                 vm.selected.push(newTerm);
+                vm.$emit('cat-selector-value-change');
             });
+        },
+        watch: {
+
+        },
+        destroyed: function () {
+        },
+        updated: function () {
+            $(this.$el).find('.cat-selector').trigger('chosen:updated');
         },
         methods: {
             save: function(){
                 var vm = this;
-                console.log(vm.selected);
                 $.ajax({
                     url: window.ajaxurl,
                     type: 'POST',
@@ -108,6 +120,8 @@
                     }
                     vm.selected = responseObject.currentTerms;
                 });
+            },
+            test: function () {
             }
         },
         computed: {

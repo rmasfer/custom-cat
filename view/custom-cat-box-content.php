@@ -28,7 +28,14 @@
 </script>
 <script type="text/x-template" id="taxonomy-saver-template">
     <div class="taxonomy-save-container" v-show="showTaxonomySaver">
-        <input type="text" name="input_new_taxonomy" v-bind:value="searchedText"/>
+        <div>
+	        <label for="input_new_taxonomy">Name</label>
+            <input type="text" name="input_new_taxonomy" v-model="searchedText"/>
+        </div>
+	    <div>
+	        <label for="input_new_slug">Slug</label>
+            <input type="text" name="input_new_slug" v-model="slug" />
+	    </div>
         <button class="button-save" @click.prevent="save">Save</button>
     </div>
 </script>
