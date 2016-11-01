@@ -18,3 +18,18 @@
 .custom-cat-container .chosen-container-multi .chosen-choices {
     background-image: none;
 }
+
+/*.form-field input[type="text"],*/
+/*.form-field input[type="password"],*/
+/*.form-field input[type="email"],*/
+/*.form-field input[type="number"],*/
+/*.form-field input[type="search"],*/
+/*.form-field input[type="tel"],*/
+/*.form-field input[type="url"],*/
+/*.form-field textarea {*/
+    /**/
+/*}*/
+
+.form-field input[type="text"].has-error {
+    border-color: red;
+}

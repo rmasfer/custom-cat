@@ -30,14 +30,23 @@
     <div class="taxonomy-save-container" v-show="showTaxonomySaver">
 	    <div class="bold">Insert new term</div>
 	    <div class="form-wrap">
+            <div v-show="formHasError">Have some errors</div>
 	        <div class="element-container form-field">
 		        <label for="input_new_taxonomy">Name</label>
-	            <input type="text" name="input_new_taxonomy" v-model="searchedText"/>
+	            <input type="text"
+                       name="input_new_taxonomy"
+                       v-model="searchedText"
+                       v-bind:class="{'has-error' : searchedTextHasError}"
+                />
 		        <p>The name is how it appears on your site.</p>
 	        </div>
 		    <div class="element-container form-field">
 		        <label for="input_new_slug">Slug</label>
-	            <input type="text" name="input_new_slug" v-model="slug" />
+	            <input type="text"
+                       name="input_new_slug"
+                       v-model="slug"
+                       v-bind:class="{'has-error' : slugHasError}"
+                />
 			    <p>The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.</p>
 		    </div>
 	        <button class="button button-save" @click.prevent="save">Save</button>
