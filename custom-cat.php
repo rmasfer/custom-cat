@@ -1,10 +1,9 @@
 <?php
 /*
 Plugin Name: Custom Cat
-Plugin URI: http://blog.eseak.com
-Description: Test
+Description: Customised taxonomy selector for WordPress
 Author: R. Mohamed Asfer
-Version: 0.1
+Version: 1.0.0
 */
 if (!defined('CC_PLUGIN_URI')) {
     define('CC_PLUGIN_URI', plugin_dir_url(__FILE__));

@@ -9,11 +9,27 @@
             return {
                 showTaxonomySaver: false,
                 searchedText: null,
-                slug: null
+                slug: null,
+                formHasError: false
             }
         },
         computed: {
-
+            searchedTextHasError: function(){
+                var vm = this;
+                return vm.searchedText == "";
+            },
+            slugHasError: function(){
+                var vm = this;
+                return vm.slug == "";
+            }
+        },
+        watch: {
+            searchedText: function() {
+                this.formHasError = false;
+            },
+            slug: function() {
+                this.formHasError = false;
+            }
         },
         created: function(){
             var vm = this;
@@ -30,8 +46,12 @@
         methods: {
             save: function(){
                 var vm = this;
-                console.log(vm.searchedText);
-                console.log(vm.slug);
+
+                if (!vm.validate()) {
+                    vm.formHasError = true;
+                    return;
+                }
+
                 $.ajax({
                     url: window.ajaxurl,
                     data: {
@@ -49,6 +69,16 @@
                     vm.$parent.$emit('ts-saved', vm.searchedText);
                     vm.showTaxonomySaver = false;
                 });
+            },
+            validate: function(){
+                var vm = this;
+                var valid = true;
+
+                if (vm.searchedText == "" || vm.slug == "") {
+                    valid = false;
+                }
+
+                return valid;
             }
         }
     };
