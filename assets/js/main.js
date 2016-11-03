@@ -38,6 +38,10 @@
                 vm.searchedText = searchedText;
                 vm.slug = searchedText;
             });
+            vm.$parent.$on('cat-selector-hide', function(){
+                vm.formHasError = false;
+                vm.showTaxonomySaver = false;
+            });
 
         },
         mounted: function(){
@@ -109,6 +113,10 @@
             }.bind(this));
             catSelector.on('chosen:no_results', function(event, params){
                 var noResultsValue = $('.' + vm.containerClass).find('.search-field input').val();
+                if (noResultsValue.length == 1) {
+                    vm.$emit('cat-selector-hide');
+                    return;
+                }
                 vm.$emit('cat-selector-no-results', noResultsValue);
             });
 
