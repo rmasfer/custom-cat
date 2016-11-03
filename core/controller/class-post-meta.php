@@ -34,7 +34,7 @@ class cc_post_meta extends cc_base_controller
 
     public function init_meta_boxes()
     {
-        add_meta_box('custom-cat-box', 'Categories', array($this, 'custom_cat_box_content'), null, 'normal', 'high');
+        add_meta_box('custom-cat-box', 'Custom Cat', array($this, 'custom_cat_box_content'), null, 'normal', 'high');
     }
 
     public function custom_cat_box_content()
