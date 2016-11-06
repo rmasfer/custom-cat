@@ -25,6 +25,7 @@ class custom_cat {
         require_once CC_PLUGIN_DIR_URI . 'core/controller/class-base-controller.php';
         require_once CC_PLUGIN_DIR_URI . 'core/controller/class-post-meta.php';
         require_once CC_PLUGIN_DIR_URI . 'core/controller/class-post-meta-xhr.php';
+        require_once CC_PLUGIN_DIR_URI . 'core/controller/class-main-options-page.php';
     }
 }
 
