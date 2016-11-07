@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 
 
 class class_main_options_page extends cc_base_controller
@@ -36,8 +36,8 @@ class class_main_options_page extends cc_base_controller
     public function create_page()
     {
         $this->options = get_option( self::OPTIONS_NAME );
-        $this->format();
-        var_dump($this->options);
+        $this->format_options();
+//        var_dump($this->options);
 
         echo $this->view( 'main-options-page', array()) ;
     }
@@ -53,7 +53,7 @@ class class_main_options_page extends cc_base_controller
 
         add_settings_field(
             'allow_one',
-            'Allow One',
+            'Allow one',
             array($this, 'allow_one_callback'),
             self::PAGE_SLUG,
             $section_name,
@@ -65,6 +65,18 @@ class class_main_options_page extends cc_base_controller
                     array('name' => 'category'),
                     array('name' => 'category1'),
                 )
+            )
+        );
+
+        add_settings_field(
+            'hide_default_category_meta',
+            'Hide default',
+            array($this, 'hide_default_category_meta_callback'),
+            self::PAGE_SLUG,
+            $section_name,
+            array(
+                'id' => 'cc-hide-default-category-meta',
+                'name' => self::OPTIONS_NAME . '[cc_hide_default_category_meta]'
             )
         );
 
@@ -80,16 +92,53 @@ class class_main_options_page extends cc_base_controller
         $html = '';
 
         foreach ($parameters['taxonomies'] as $taxonomy) {
+            $current_value = '';
+            if (!empty($this->options['cc_allow_one'][$taxonomy['name']])) {
+                $current_value = $this->options['cc_allow_one'][$taxonomy['name']];
+            }
+
             $html .= '<input 
                         type="checkbox" 
-                        ' . checked('category', $taxonomy['name'], false) . '
+                        ' . checked($current_value, $taxonomy['name'], false) . '
                         name="' . $parameters['name'] . '"
                         value="' . $taxonomy['name'] . '">' . $taxonomy['name'] . '<br>';
         }
+
+        $html .= '<span>Strict your post with only one taxonomy term</span>';
         echo $html;
     }
 
-    private function format() {
+    public function hide_default_category_meta_callback($parameters)
+    {
+        $html = '';
+
+        $current_value = '';
+        if (!empty($this->options['cc_hide_default_category_meta'])) {
+            $current_value = $this->options['cc_hide_default_category_meta'];
+        }
+
+        $html .= '<input
+                    type="checkbox"
+                    name="' . $parameters['name'] . '"
+                    value="1"
+                    '. checked($current_value, '1', false) . '
+                    > Hides default category meta box';
+
+        echo $html;
+    }
+
+    private function format_options()
+    {
+        if (!empty($this->options['cc_allow_one'])) {
+            $selected_items = $this->options['cc_allow_one'];
+            $formattedValues = array();
+            foreach($selected_items as $selected_item_key => $selected_item) {
+                $formattedValues[$selected_item] = $selected_item;
+            }
+            if (!empty($formattedValues)) {
+                $this->options['cc_allow_one'] = $formattedValues;
+            }
+        }
     }
 }
 
