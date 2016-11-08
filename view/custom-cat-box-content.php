@@ -6,6 +6,7 @@
         v-bind:post-id="<?php echo $post_id;?>"
         v-bind:current-terms="<?php echo str_replace('"', '\'', json_encode($available_taxonomy['current_terms_list']));?>"
         v-bind:terms-list="<?php echo str_replace('"', '\'', json_encode($available_taxonomy['available_terms_list']));?>"
+        v-bind:allow-one="<?php echo $available_taxonomy['allow_one']; ?>"
         taxonomy="<?php echo $taxonomy_name; ?>"
         title="<?php echo $taxonomy_name; ?>"
     >

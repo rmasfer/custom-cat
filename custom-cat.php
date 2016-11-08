@@ -21,11 +21,18 @@ class custom_cat {
 
     public function init()
     {
+        require_once CC_PLUGIN_DIR_URI . 'core/model/class-taxonomy.php';
+        require_once CC_PLUGIN_DIR_URI . 'core/model/class-options.php';
+
         // controller
         require_once CC_PLUGIN_DIR_URI . 'core/controller/class-base-controller.php';
         require_once CC_PLUGIN_DIR_URI . 'core/controller/class-post-meta.php';
         require_once CC_PLUGIN_DIR_URI . 'core/controller/class-post-meta-xhr.php';
         require_once CC_PLUGIN_DIR_URI . 'core/controller/class-main-options-page.php';
+
+        // hooks
+        require_once CC_PLUGIN_DIR_URI . 'core/hooks/class-hide-default.php';
+
     }
 }
 

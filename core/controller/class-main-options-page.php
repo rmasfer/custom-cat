@@ -1,7 +1,7 @@
 <?php
 
 
-class class_main_options_page extends cc_base_controller
+class cc_main_options_page extends cc_base_controller
 {
     const PAGE_SLUG = 'custom-cat';
     const OPTIONS_NAME = 'custom_cat_options';
@@ -37,7 +37,6 @@ class class_main_options_page extends cc_base_controller
     {
         $this->options = get_option( self::OPTIONS_NAME );
         $this->format_options();
-//        var_dump($this->options);
 
         echo $this->view( 'main-options-page', array()) ;
     }
@@ -49,7 +48,7 @@ class class_main_options_page extends cc_base_controller
         register_setting( 'custom_cat_main', self::OPTIONS_NAME );
 
         $section_name = 'custom_cat_main_settings';
-        add_settings_section($section_name, 'Title', array($this, 'section_title_callback'), self::PAGE_SLUG);
+        add_settings_section($section_name, 'Custom Cat Settings', array($this, 'section_title_callback'), self::PAGE_SLUG);
 
         add_settings_field(
             'allow_one',
@@ -61,10 +60,7 @@ class class_main_options_page extends cc_base_controller
                 'type' => 'input',
                 'id' => 'cc-allow-one',
                 'name' => self::OPTIONS_NAME . '[cc_allow_one][]',
-                'taxonomies' => array(
-                    array('name' => 'category'),
-                    array('name' => 'category1'),
-                )
+                'taxonomies' => (new cc_taxonomy())->fetch_all_taxonomies(),
             )
         );
 
@@ -84,7 +80,7 @@ class class_main_options_page extends cc_base_controller
 
     public function section_title_callback()
     {
-        echo 'Section title';
+        echo 'Common';
     }
 
     public function allow_one_callback($parameters)
@@ -101,10 +97,10 @@ class class_main_options_page extends cc_base_controller
                         type="checkbox" 
                         ' . checked($current_value, $taxonomy['name'], false) . '
                         name="' . $parameters['name'] . '"
-                        value="' . $taxonomy['name'] . '">' . $taxonomy['name'] . '<br>';
+                        value="' . $taxonomy['slug'] . '">' . $taxonomy['name'] . '<br>';
         }
 
-        $html .= '<span>Strict your post with only one taxonomy term</span>';
+        $html .= '<span>Limit post with only one taxonomy term</span>';
         echo $html;
     }
 
@@ -143,5 +139,5 @@ class class_main_options_page extends cc_base_controller
 }
 
 if (is_admin()) {
-    new class_main_options_page();
+    new cc_main_options_page();
 }
