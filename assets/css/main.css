@@ -6,9 +6,10 @@
     padding: 10px 0;
 }
 
-.title {
+.custom-selector-component-container .title {
     font-weight: bold;
     text-transform: capitalize;
+    padding: 5px 0;
 }
 
 .taxonomy-save-container {
@@ -17,6 +18,10 @@
 
 .custom-cat-container .chosen-container-multi .chosen-choices {
     background-image: none;
+}
+
+.message-warning {
+    color: #8a6d3b;
 }
 
 /*.form-field input[type="text"],*/

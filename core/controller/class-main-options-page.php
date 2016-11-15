@@ -80,7 +80,7 @@ class cc_main_options_page extends cc_base_controller
 
     public function section_title_callback()
     {
-        echo 'Common';
+        echo '';
     }
 
     public function allow_one_callback($parameters)
@@ -89,13 +89,13 @@ class cc_main_options_page extends cc_base_controller
 
         foreach ($parameters['taxonomies'] as $taxonomy) {
             $current_value = '';
-            if (!empty($this->options['cc_allow_one'][$taxonomy['name']])) {
-                $current_value = $this->options['cc_allow_one'][$taxonomy['name']];
+            if (!empty($this->options['cc_allow_one'][$taxonomy['slug']])) {
+                $current_value = $this->options['cc_allow_one'][$taxonomy['slug']];
             }
 
             $html .= '<input 
                         type="checkbox" 
-                        ' . checked($current_value, $taxonomy['name'], false) . '
+                        ' . checked($current_value, $taxonomy['slug'], false) . '
                         name="' . $parameters['name'] . '"
                         value="' . $taxonomy['slug'] . '">' . $taxonomy['name'] . '<br>';
         }

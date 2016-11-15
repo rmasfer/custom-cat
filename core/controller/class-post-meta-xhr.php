@@ -17,6 +17,7 @@ class cc_post_meta_xhr
             echo json_encode(['status' => false]);
             die;
         }
+
         wp_set_object_terms($_POST['postId'], $_POST['categoriesToSave'], $_POST['taxonomy']);
         echo json_encode([
             'status' => true,

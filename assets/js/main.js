@@ -100,15 +100,25 @@
             currentTerms: Array,
             termsList: Array,
             title: String,
-            taxonomy: String
+            taxonomy: String,
+            allowOne: Boolean
         },
         mounted: function(){
             var vm = this;
             var catSelector = $(this.$el).find('.cat-selector');
+            var maximumSelectableOption = 1000;
+            if (vm.allowOne) {
+                maximumSelectableOption = 1;
+            }
             catSelector.chosen({
-                width: '95%'
+                width: '95%',
+                max_selected_options: maximumSelectableOption
             }).change(function(event, params){
-                vm.selected = $(event.currentTarget).val();
+                var inputValues = [];
+                if ($(event.currentTarget).val()) {
+                    inputValues = $(event.currentTarget).val();
+                }
+                vm.selected = inputValues;
                 vm.$emit('cat-selector-value-change');
             }.bind(this));
             catSelector.on('chosen:no_results', function(event, params){
@@ -154,6 +164,9 @@
                 .done(function(response){
                     var responseObject = JSON.parse(response);
                     if (!responseObject.status) {
+                        return;
+                    }
+                    if (responseObject.currentTerms == "" || responseObject.currentTerms == null) {
                         return;
                     }
                     vm.selected = responseObject.currentTerms;

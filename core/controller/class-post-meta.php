@@ -34,7 +34,7 @@ class cc_post_meta extends cc_base_controller
 
     public function init_meta_boxes()
     {
-        add_meta_box('custom-cat-box', 'Custom Cat', array($this, 'custom_cat_box_content'), null, 'normal', 'high');
+        add_meta_box('custom-cat-box', 'Custom Cat', array($this, 'custom_cat_box_content'), 'post', 'normal', 'high');
     }
 
     public function custom_cat_box_content()
@@ -56,7 +56,6 @@ class cc_post_meta extends cc_base_controller
         $post_id = $post->ID;
         $available_taxonomies = array();
         $allow_one_options = (new cc_options())->get_option(cc_main_options_page::OPTIONS_NAME, 'cc_allow_one', array());
-
         $taxonomies_of_currentPost = get_object_taxonomies($post->post_type, 'names');
         foreach ($taxonomies_of_currentPost as $taxonomy_name) {
             if (in_array($taxonomy_name, ['post_tag', 'post_format'])) {
