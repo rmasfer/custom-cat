@@ -7,7 +7,7 @@ Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Customised taxonomy selector for WordPress
+Custom taxonomy selector for WordPress
 
 == Description ==
 Custom Cat plugin will helps to assign taxonomies terms easier than before. You will no longer need to scroll through list of taxonomy terms.

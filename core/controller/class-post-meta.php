@@ -34,7 +34,7 @@ class cc_post_meta extends cc_base_controller
 
     public function init_meta_boxes()
     {
-        add_meta_box('custom-cat-box', 'Custom Cat', array($this, 'custom_cat_box_content'), null, 'normal', 'high');
+        add_meta_box('custom-cat-box', 'Custom Cat', array($this, 'custom_cat_box_content'), 'post', 'normal', 'high');
     }
 
     public function custom_cat_box_content()
@@ -42,25 +42,41 @@ class cc_post_meta extends cc_base_controller
         $available_taxonomies = $this->build_available_taxonomy();
 
         global $post;
-        $post_id = $post->ID; //fv
+        $post_id = $post->ID;
 
-        require_once(CC_PLUGIN_DIR_URI . 'view/custom-cat-box-content.php');
+        echo $this->view('custom-cat-box-content', array(
+            'available_taxonomies' => $available_taxonomies,
+            'post_id' => $post_id
+        ));
     }
 
     private function build_available_taxonomy()
     {
-        $available_taxonomies = array();
         global $post;
-        $postId = $post->ID;
+        $post_id = $post->ID;
+        $available_taxonomies = array();
+        $allow_one_options = (new cc_options())->get_option(cc_main_options_page::OPTIONS_NAME, 'cc_allow_one', array());
         $taxonomies_of_currentPost = get_object_taxonomies($post->post_type, 'names');
         foreach ($taxonomies_of_currentPost as $taxonomy_name) {
             if (in_array($taxonomy_name, ['post_tag', 'post_format'])) {
                 continue;
             }
 
+            $allow_one = 'false';
+            if (in_array($taxonomy_name, $allow_one_options)) {
+                $allow_one = 'true';
+            }
+
             $available_taxonomies[$taxonomy_name] = [];
-            $available_taxonomies[$taxonomy_name]['available_terms_list'] = $this->fetch_all_available_taxonomies($taxonomy_name); //fv to populate select box
-            $available_taxonomies[$taxonomy_name]['current_terms_list'] = $this->fetch_all_terms_of_post($postId, $taxonomy_name); // fv
+            $available_taxonomies[$taxonomy_name]['available_terms_list'] = $this->fetch_all_available_taxonomies(
+                $taxonomy_name
+            );
+            $available_taxonomies[$taxonomy_name]['current_terms_list'] = $this->fetch_all_terms_of_post(
+                $post_id,
+                $taxonomy_name
+            );
+            $available_taxonomies[$taxonomy_name]['allow_one'] = $allow_one;
+
         }
         return $available_taxonomies;
     }
